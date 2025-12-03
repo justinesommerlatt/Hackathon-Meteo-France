@@ -21,17 +21,29 @@ df['Nom_station de ski'] = df['Nom_station de ski'].fillna('')
 # Conversion de x en array
 x = np.arange(len(df))
 
-# Isothermes 0°C pour les 4 périodes avec min, mean et max
-isothermes = {
-    "2020-2040": {"Isotherme 0° pour l'année la plus froide sur la période": 1347.0, "Isotherme 0° moyen sur la période": 2039.4, "Isotherme 0° pour l'année la plus chaude sur la période": 2617.0},
-    "2041-2060": {"Isotherme 0° pour l'année la plus froide sur la période": 1675.0, "Isotherme 0° moyen sur la période": 2231.5, "Isotherme 0° pour l'année la plus chaude sur la période": 2750.0},
-    "2061-2080": {"Isotherme 0° pour l'année la plus froide sur la période": 1742.0, "Isotherme 0° moyen sur la période": 2339.5, "Isotherme 0° pour l'année la plus chaude sur la période": 2793.0},
-    "2081-2100": {"Isotherme 0° pour l'année la plus froide sur la période": 2126.0, "Isotherme 0° moyen sur la période": 2565.5, "Isotherme 0° pour l'année la plus chaude sur la période": 2999.0}
-}
+# NEW
+iso_df = pd.read_csv("isotherme_0_averaged_stats.csv", index_col=0)
 
-colors = {"Isotherme 0° pour l'année la plus froide sur la période": "blue",
-          "Isotherme 0° moyen sur la période": "orange",
-          "Isotherme 0° pour l'année la plus chaude sur la période": "red"}
+print(iso_df.columns)
+print(iso_df.head())
+
+# Nettoyage des colonnes
+iso_df.columns = iso_df.columns.str.strip()
+
+# Construction du dictionnaire au même format que ton ancien code
+isothermes = {}
+
+for periode, row in iso_df.iterrows():
+    isothermes[periode] = {
+        "Isotherme 0° pour l'année la plus froide sur la période": row["min_elevation"],
+        "Isotherme 0° moyen sur la période": row["mean_elevation"],
+        "Isotherme 0° pour l'année la plus chaude sur la période": row["max_elevation"],
+    }
+
+
+# END NEW
+colors = {"Isotherme 0° pour l'année la plus froide sur la période": "#2EA8FF", "Isotherme 0° moyen sur la période": "#8ACEFF", "Isotherme 0° pour l'année la plus chaude sur la période": "#B3DFFF"}
+
 
 for periode, stats in isothermes.items():
     fig = go.Figure()
@@ -41,10 +53,9 @@ for periode, stats in isothermes.items():
         x=x,
         y=df['Altitude_Sommet'],
         fill='tozeroy',
-        fillcolor='lightgrey',
-        line=dict(color='grey', width=2),
-        mode='lines+markers+text',
-        marker=dict(size=8),
+        fillcolor='#C2C2C2',
+        line=dict(color='#C2C2C2', width=2),
+        mode='lines+text',
         name='Sommet',
         text=df['Nom_Sommet'],
         textposition='top center'
@@ -63,39 +74,37 @@ for periode, stats in isothermes.items():
 
     # Stations de ski
     mask_stations = df['Nom_station de ski'] != ''
-    # Basse station
-    fig.add_trace(go.Scatter(
-        x=x[mask_stations],
-        y=df.loc[mask_stations, 'Altitude_basse_station de ski'],
-        mode='markers',
-        marker=dict(color='cyan', size=10),
-        name='Basse station de ski'
-    ))
-    # Haute station
-    fig.add_trace(go.Scatter(
-        x=x[mask_stations],
-        y=df.loc[mask_stations, 'Altitude_haute_station de ski'],
-        mode='markers',
-        marker=dict(color='cyan', size=10),
-        name='Haute station de ski'
-    ))
+
     # Relier basse et haute
-    for xi, yb, yh in zip(x[mask_stations], df.loc[mask_stations, 'Altitude_basse_station de ski'], df.loc[mask_stations, 'Altitude_haute_station de ski']):
+    added_legend = False  # flag pour ajouter la légende une seule fois
+
+    for xi, yb, yh in zip(x[mask_stations], df.loc[mask_stations, 'Altitude_basse_station de ski'],
+                          df.loc[mask_stations, 'Altitude_haute_station de ski']):
         fig.add_trace(go.Scatter(
             x=[xi, xi],
             y=[yb, yh],
             mode='lines',
-            line=dict(color='cyan', width=3),
-            showlegend=False
+            line=dict(color='#BDF4FF', width=8),
+            name='Espace couvert par le domaine skiable' if not added_legend else None,
+            showlegend=not added_legend
         ))
+        added_legend = True  # après le premier ajout, on ne met plus dans la légende
 
-    # Lignes min, mean, max
-    for key in ["Isotherme 0° pour l'année la plus froide sur la période", "Isotherme 0° moyen sur la période", "Isotherme 0° pour l'année la plus chaude sur la période"]:
+    for key in ["Isotherme 0° pour l'année la plus froide sur la période",
+                "Isotherme 0° moyen sur la période",
+                "Isotherme 0° pour l'année la plus chaude sur la période"]:
+
+        # Définir le style du trait
+        if key == "Isotherme 0° moyen sur la période":
+            dash_style = 'solid'  # trait continu pour la moyenne
+        else:
+            dash_style = 'dash'  # pointillé pour min et max
+
         fig.add_trace(go.Scatter(
             x=[x[0], x[-1]],
             y=[stats[key], stats[key]],
             mode='lines',
-            line=dict(color=colors[key], width=2),
+            line=dict(color=colors[key], width=2, dash=dash_style),
             name=f'{key} {periode}'
         ))
 
