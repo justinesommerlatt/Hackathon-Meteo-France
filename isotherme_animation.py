@@ -8,7 +8,7 @@ import os
 # -----------------------------
 # Charger tous les fichiers
 # -----------------------------
-data_folder = '/Users/justinesommerlatt/Desktop/Hackathon-Meteo-France/Isotherme0_data'
+data_folder = 'Isotherme0_data'
 input_pattern = os.path.join(data_folder, 'freezing_days_per_year_*.nc')
 input_files = sorted(glob.glob(input_pattern))
 
