@@ -63,11 +63,7 @@ En calculant la moyenne, valeur minimale et valeur maximale on obtient trois sc�
 Avec ce dashboard, nous souhaitons vulgariser les données afin de les rendre compréhensibles pour le plus grand nombre. 
 Dessus, on peut retrouver : 
 - la prévision de l'évolution de la fréquence de nuits tropicales
-- la prévision de l'évolution de l'isotherme zéro dans le temps 
-
-
-## Pré-requis
- TODO
+- la prévision de l'évolution de l'isotherme zéro dans le temps
 
 ## Installation
 
@@ -80,18 +76,37 @@ Installer les dépendances : <br>
 
 ## Démarrage
 
-### Informations sur les défirents fichiers 
+### Informations sur les différents fichiers 
 ```cretes.py``` génère des sorties dans le dossier ```crete_animations```. Les sorties sont des schémas par intervalles de temps montrant la position de l'isotherme zéro dans une région donnée, ainsi qu'une vidéo d'animation montrant l'évolution. 
 
 ```cretes_plotly.py``` génère les mêmes sorties que ```cretes.py``` mais au format plotly, dans le dossier ```crete_animations_plotly```. Les sorties sont des schémas par intervalles de temps montrant la position de l'isotherme zéro dans une région donnée, ainsi qu'une vidéo d'animation montrant l'évolution. 
 
+```cretes_tropicales.py``` génère des sorties dans le dossier ```crete_animations```. Les sorties sont des schémas par intervalles de temps montrant la position de l'isotherme zéro et du seuil 20° dans une région donnée, ainsi qu'une vidéo d'animation montrant l'évolution (terminant tous par v2). 
+
+```isotherme_animation.py``` génère des sorties dans le dossier ```isotherme_animations```. Les sorties sont des vidéos d'animations par années et par intervalles de temps montrant l'évolution du nombre de jours de gel dans une région donnée. 
+
+```isotherme_animation_plotly.py``` génère les mêmes sorties que ```isotherme_animation.py``` mais au format plotly, dans le dossier ```isotherme_animation_plotly```. Les sorties sont des vidéos par années et par intervalles de temps montrant l'évolution du nombre de jours de gel dans une région donnée.
+
+```tropical_animation.py``` génère des sorties dans le dossier ```tropical_animations```. Les sorties sont des vidéos d'animations par années et par intervalles de temps montrant l'évolution du nombre de nuits tropicales dans une région donnée. 
+
+```tropical_animation_plotly.py``` génère les mêmes sorties que ```cretes.py``` mais au format plotly, dans le dossier ```crete_animations_plotly```. Les sorties sont des schémas par années et par intervalles de temps montrant l'évolution du nombre de nuits tropicales dans une région donnée. 
+
 
 ### Données utilisées 
-TODO 
-
-### Outils utilisés
-TODO
-
+- input_domain_id :
+ALPX-3
+- input_project_id :
+CORDEX
+- input_references :
+Caillaud et al. 2021, https://doi.org/10.1007/s00382-020-05558-y
+- input_grid :
+Lambert conic conformal with 2.5 km grid spacing
+- source :
+CNRM-AROME46t1 model output corrected over metropolitan France using ANASTASIA
+- project :
+Socle-FR-Metro-Climat-2025
+- grid_resolution :
+2.5-km
 
 
 ### Auteurs
