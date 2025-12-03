@@ -58,12 +58,17 @@ Nous nous basons sur la température minimale pour déterminer s'il y a présenc
 En calculant la moyenne, valeur minimale et valeur maximale on obtient trois scénarios à nouveau : moyenne, "chaud" et "froid". 
 
 
-#### 3) Création du dashboard
+#### 3) Création de l'application
 
-Avec ce dashboard, nous souhaitons vulgariser les données afin de les rendre compréhensibles pour le plus grand nombre. 
+Avec cette application, nous souhaitons vulgariser les données afin de les rendre compréhensibles pour le plus grand nombre. 
 Dessus, on peut retrouver : 
 - la prévision de l'évolution de la fréquence de nuits tropicales
 - la prévision de l'évolution de l'isotherme zéro dans le temps
+
+#### Liens vers l'application <br>
+Dépôt application : https://github.com/rwinsee/app_shiny_climat <br>
+Depot déploiement : https://github.com/rwinsee/hackathon_defi8_dataviz <br>
+Lien application : https://hackathon-climat-defi8.lab.sspcloud.fr/
 
 ## Installation
 
@@ -73,6 +78,11 @@ Cloner le dépôt à l'emplacement de votre choix: <br>
 
 Installer les dépendances : <br>
 ```pip install -r requirements.txt```
+
+De même pour les dépôt pour l'application, rappel des liens : <br>
+Dépôt app : https://github.com/rwinsee/app_shiny_climat <br>
+Depot deploy : https://github.com/rwinsee/hackathon_defi8_dataviz <br>
+Lien app : https://hackathon-climat-defi8.lab.sspcloud.fr/
 
 ## Démarrage
 
